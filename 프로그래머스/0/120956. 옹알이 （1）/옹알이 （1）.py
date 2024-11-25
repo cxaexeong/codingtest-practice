@@ -1,11 +1,9 @@
+import re
+
 def solution(babbling):
-    a = ["aya","ye","woo","ma"]
-    answer = 0
-    for i in babbling:
-        result = 0
-        for j in range(4):
-            if i.find(a[j]) != -1:
-                result += len(a[j])
-        if len(i) == result:
-            answer += 1
-    return answer
+    valid_pattern = re.compile("^(aya|ye|woo|ma)+$")
+    count = 0
+    for word in babbling:
+        if valid_pattern.match(word):
+            count += 1
+    return count
