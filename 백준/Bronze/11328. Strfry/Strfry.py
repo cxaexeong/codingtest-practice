@@ -1,8 +1,14 @@
-n = int(input()) 
+import sys
+input = sys.stdin.readline
+
+n = int(input())
 for _ in range(n):
-    a, b = map(sorted, list(input().split()))
-    # input.split: "abc cba" -> ['abc', 'cba']
-    # map(sorted..): 'abc' - > ['a','b','c'], 'cba' -> ['a','b','c']
-    print(['Impossible', 'Possible'][a==b])
-    # [a==b] 인덱싱 도구: False, True
+    a, b = input().split()
     
+    sort_a = sorted(a)
+    sort_b = sorted(b)
+
+    if sort_a == sort_b:
+        print("Possible")
+    else:
+        print("Impossible")
