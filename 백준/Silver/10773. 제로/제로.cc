@@ -1,32 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(){
-    int k;
+int k;
+stack<int> s;
+int ans = 0;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
     cin >> k;
     
-    stack<int> s;
-    int num;
-    
-    while (k--){
-        cin >> num;
+    while (k--) {
+        int n;
+        cin >> n;
         
-        if (num == 0){
-            if (!s.empty()){
-                s.pop();
-            }
-        } else {
-            s.push(num);
-        }
+        if (n == 0) s.pop();
+        else s.push(n);
     }
     
-    // 스택에 남아있는 숫자의 합 계산
-    int sum = 0;
-    while (!s.empty()){
-        sum += s.top();
+    // 스택에 쌓여 있는 모든 값을 더해줌
+    while (!s.empty()) {
+        ans += s.top();
         s.pop();
     }
-    
-    cout << sum << '\n';
-    return 0;
+    cout << ans;
 }
