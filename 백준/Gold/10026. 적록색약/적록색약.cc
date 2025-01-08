@@ -2,15 +2,13 @@
 using namespace std;
 #define x first
 #define y second
-
+int dx[4] = {1, 0, -1, 0};
+int dy[4] = {0, 1, 0, -1};
 char board[102][102];
-bool rgx[102][102]; // 일반인 방문 여부
-bool rgo[102][102]; // 적록색약 방문 여부
+bool rgx[102][102];
+bool rgo[102][102];
 int n;
-int dx[4] = {0, 1, 0, -1};
-int dy[4] = {1, 0, -1, 0};
 
-// BFS 함수
 void bfs(int x, int y, bool v[102][102], bool is_rg_blind) {
     queue<pair<int, int>> q;
     q.push({x, y});
@@ -51,38 +49,37 @@ void bfs(int x, int y, bool v[102][102], bool is_rg_blind) {
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-
+   
     cin >> n;
-
+    
     for (int i = 0; i < n; i++) {
-        string pic;
-        cin >> pic;
-        for (int j = 0; j < n; j++) 
-            board[i][j] = pic[j];
+        cin >> board[i];
     }
-
-    // 일반인 경우
+    
+    // 일반인인 경우
     int rgx_cnt = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            if (!rgx[i][j]) { // 방문하지 않은 경우만 탐색
+            // 방문하지 않은 경우만 탐색
+            if (!rgx[i][j]) {
                 bfs(i, j, rgx, false);
                 rgx_cnt++;
             }
         }
     }
-
+    
     // 적록색약인 경우
     int rgo_cnt = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            if (!rgo[i][j]) { // 방문하지 않은 경우만 탐색
+            // 방문하지 않은 경우만 탐색
+            if (!rgo[i][j]) {
                 bfs(i, j, rgo, true);
                 rgo_cnt++;
             }
         }
     }
-
+    
     cout << rgx_cnt << " " << rgo_cnt << '\n';
     return 0;
 }
