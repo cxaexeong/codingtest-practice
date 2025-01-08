@@ -1,14 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 #define x first
 #define y second
 
-int t, m, n, k;
-int board[52][52]; // 배추밭 정보
-bool v[52][52];    // 방문 여부 체크
-int dx[4] = {1, 0, -1, 0}; // 상하좌우 방향 이동
+int board[52][52];
+bool v[52][52];
+int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
+int m, n, k;
 
 void bfs(int x, int y) {
     queue<pair<int, int>> q;
@@ -23,12 +22,12 @@ void bfs(int x, int y) {
             int nx = cur.x + dx[d];
             int ny = cur.y + dy[d];
 
-            // 범위 체크 및 조건 확인
+            // 범위를 벗어나거나 이미 방문한 경우
             if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
             if (v[nx][ny] || board[nx][ny] == 0) continue;
 
-            v[nx][ny] = true;
             q.push({nx, ny});
+            v[nx][ny] = true;
         }
     }
 }
@@ -37,6 +36,7 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
+    int t;
     cin >> t;
 
     while (t--) {
@@ -46,7 +46,6 @@ int main() {
         memset(board, 0, sizeof(board));
         memset(v, false, sizeof(v));
 
-        // 배추 위치 입력
         for (int i = 0; i < k; i++) {
             int x, y;
             cin >> x >> y;
@@ -54,18 +53,16 @@ int main() {
         }
 
         int cnt = 0;
-
-        // 모든 위치 탐색
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] == 1 && !v[i][j]) {
-                    bfs(i, j); // 새로운 그룹 발견 시 BFS 호출
+                    bfs(i, j);
                     cnt++;
                 }
             }
         }
 
-        cout << cnt << "\n";
+        cout << cnt << '\n';
     }
 
     return 0;
