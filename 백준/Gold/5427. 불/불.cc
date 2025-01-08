@@ -92,3 +92,8 @@ int main() {
 
     return 0;
 }
+
+// 기록
+// 조건 fire_dist[nx][ny] <= sg_dist[cur.x][cur.y] + 1은 상근이가 불보다 늦게 도착하거나 동시에 도착하면 이동할 수 없도록 막는 조건.
+// fire_dist[nx][ny] < sg_dist[cur.x][cur.y] + 1은 불이 상근이보다 먼저 도달했음을 의미하며, 이는 상근이가 이동할 수 없는 칸임을 나타냄.
+// fire_dist[nx][ny] = sg_dist[cur.x][cur.y] + 1은 불과 상근이가 동시에 도달한 경우로, 상근이가 이동할 수 없는 칸.
