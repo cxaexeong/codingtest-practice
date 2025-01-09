@@ -7,42 +7,26 @@ bool v[100001];
 bool finished[100001];
 int result;
 
-void bfs(int start) {
-    queue<int> q;
-    vector<int> path;
-    q.push(start);
+void dfs(int current) {
+    v[current] = true;
+    int next = students[current];
 
-    while (!q.empty()) {
-        int current = q.front();
-        q.pop();
+    if (!v[next]) {
+        dfs(next);
+    } else if (!finished[next]) {
+        // 사이클 발견: next가 아직 탐색 완료되지 않은 노드일 경우
+        int node = next;
+        int cycle_size = 0;
 
-        if (v[current]) {
-            // 이미 방문한 노드에 도달했을 경우
-            if (!finished[current]) {
-                // 사이클에 포함된 노드 계산
-                int node = current;
-                int cycle_size = 0;
+        do {
+            cycle_size++;
+            node = students[node];
+        } while (node != next);
 
-                do {
-                    cycle_size++;
-                    node = students[node];
-                } while (node != current);
-
-                result -= cycle_size; // 사이클 크기만큼 제외
-            }
-            // 탐색 종료
-            break;
-        }
-
-        v[current] = true;
-        path.push_back(current);
-        q.push(students[current]);
+        result -= cycle_size; // 사이클 크기만큼 제외
     }
 
-    // 탐색 완료 후 경로를 finished로 설정
-    for (int node : path) {
-        finished[node] = true;
-    }
+    finished[current] = true; // 현재 노드 탐색 완료
 }
 
 int main() {
@@ -59,7 +43,7 @@ int main() {
 
         for (int i = 1; i <= n; i++) {
             if (!v[i]) {
-                bfs(i);
+                dfs(i);
             }
         }
 
