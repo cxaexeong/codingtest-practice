@@ -1,83 +1,67 @@
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <tuple>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-struct state {
-    int x, y, k, dist;
-};
+const int MAX = 202;
+int board[MAX][MAX];
+int dist[MAX][MAX][32]; // k번 이동 상태에서 (x, y)의 최소 이동 거리
+int dx[4] = {1, -1, 0, 0}; // 원숭이 이동
+int dy[4] = {0, 0, 1, -1};
+int hx[8] = {-2, -1, 1, 2, 2, 1, -1, -2}; // 말 이동
+int hy[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
 int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
     int k, w, h;
     cin >> k >> w >> h;
-
-    // board는 w x h 크기의 2D 배열, 0으로 초기화
-    // board = [
-    //[0, 0, 0, 0],
-    //[0, 0, 0, 0],
-    //[0, 0, 0, 0],
-    //[0, 0, 0, 0]
-    //];
-    vector<vector<int>> board(h, vector<int>(w));
-    for (int i = 0; i < h; ++i) {
-        for (int j = 0; j < w; ++j) {
+    
+    for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++) 
             cin >> board[i][j];
-        }
-    }
-
-    // v는 3D 배열로 초기화, h x w x (k+1)
-    vector<vector<vector<bool>>> v(h, vector<vector<bool>>(w, vector<bool>(k + 1, false)));
-
-    // 일반 이동 (4방향)
-    int dx[] = {0, 0, 1, -1};
-    int dy[] = {1, -1, 0, 0};
-
-    // 말 이동 (8방향)
-    int horse_dx[] = {1, 2, 2, 1, -1, -2, -2, -1};
-    int horse_dy[] = {2, 1, -1, -2, -2, -1, 1, 2};
-
-    // q는 state 구조체를 저장하는 빈 큐로 초기화: q.push({0, 0, 0, 0}); // (x, y, k, dist)
-    // 결과 : q = [{x: 0, y: 0, k: 0, dist: 0}]
-    queue<state> q;
-    q.push({0, 0, 0, 0});
-    v[0][0][0] = true;
-
+    
+    memset(dist, -1, sizeof(dist));
+    dist[0][0][0] = 0; // 시작점 거리 초기화
+    
+    queue<tuple<int, int, int>> q;
+    q.push({0, 0, 0});
+    
     while (!q.empty()) {
-        state cur = q.front();
+        auto [cx, cy, ck] = q.front();
         q.pop();
-
-        if (cur.x == h - 1 && cur.y == w - 1) {
-            cout << cur.dist << "\n";
+        
+        // 목표 지점 도달
+        if (cx == h - 1 && cy == w - 1) {
+            cout << dist[cx][cy][ck] << '\n';
             return 0;
         }
-
-        // 일반 이동
-        for (int i = 0; i < 4; ++i) {
-            int nx = cur.x + dx[i];
-            int ny = cur.y + dy[i];
-
-            if (nx >= 0 && ny >= 0 && nx < h && ny < w && !v[nx][ny][cur.k] && board[nx][ny] == 0) {
-                v[nx][ny][cur.k] = true;
-                q.push({nx, ny, cur.k, cur.dist + 1});
-            }
+        
+        // 원숭이 이동
+        for (int d = 0; d < 4; d++) {
+            int nx = cx + dx[d];
+            int ny = cy + dy[d];
+            
+            if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
+            if (board[nx][ny] == 1 || dist[nx][ny][ck] != -1) continue;
+            
+            dist[nx][ny][ck] = dist[cx][cy][ck] + 1;
+            q.push({nx, ny, ck});
         }
-
+        
         // 말 이동
-        if (cur.k < k) {
-            for (int i = 0; i < 8; ++i) {
-                int nx = cur.x + horse_dx[i];
-                int ny = cur.y + horse_dy[i];
-
-                if (nx >= 0 && ny >= 0 && nx < h && ny < w && !v[nx][ny][cur.k + 1] && board[nx][ny] == 0) {
-                    v[nx][ny][cur.k + 1] = true;
-                    q.push({nx, ny, cur.k + 1, cur.dist + 1});
-                }
+        if (ck < k) {
+            for (int d = 0; d < 8; d++) {
+                int nx = cx + hx[d];
+                int ny = cy + hy[d];
+                
+                if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
+                if (board[nx][ny] == 1 || dist[nx][ny][ck + 1] != -1) continue;
+                
+                dist[nx][ny][ck + 1] = dist[cx][cy][ck] + 1;
+                q.push({nx, ny, ck + 1});
             }
         }
     }
-
-    cout << -1 << "\n";
+    cout << -1 << '\n'; // 목표 지점 도달 불가능한 경우
     return 0;
 }
