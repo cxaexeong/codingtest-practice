@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
+int dist[100002];
 using namespace std;
-
-int dist[100001];
 
 int main() {
     ios::sync_with_stdio(0);
@@ -10,37 +9,37 @@ int main() {
     int n, k;
     cin >> n >> k;
 
-    fill(dist, dist + 100001, -1); // 거리 배열 초기화
+    fill(dist, dist + 100002, -1);
+
     deque<int> dq;
     dq.push_back(n);
     dist[n] = 0;
 
     while (!dq.empty()) {
-        int cur = dq.front();
+        int c = dq.front();
         dq.pop_front();
 
-        // 목표 지점에 도달한 경우
-        if (cur == k) {
-            cout << dist[cur];
+        if (c == k) {
+            cout << dist[k];
             return 0;
         }
 
-        // 순간이동 (시간 0)
-        if (cur * 2 <= 100000 && dist[cur * 2] == -1) {
-            dist[cur * 2] = dist[cur];
-            dq.push_front(cur * 2); // 앞쪽에 삽입
+        // 순간 이동
+        if (c * 2 <= 100000 && dist[c * 2] == -1) {
+            dist[c * 2] = dist[c];
+            dq.push_front(c * 2);
         }
 
-        // 뒤로 한 칸 이동 (시간 1)
-        if (cur - 1 >= 0 && dist[cur - 1] == -1) {
-            dist[cur - 1] = dist[cur] + 1;
-            dq.push_back(cur - 1); // 뒤쪽에 삽입
+        // 일반 이동 (뒤로 한 칸 이동)
+        if (c - 1 >= 0 && dist[c - 1] == -1) {
+            dist[c - 1] = dist[c] + 1;
+            dq.push_back(c - 1);
         }
 
-        // 앞으로 한 칸 이동 (시간 1)
-        if (cur + 1 <= 100000 && dist[cur + 1] == -1) {
-            dist[cur + 1] = dist[cur] + 1;
-            dq.push_back(cur + 1); // 뒤쪽에 삽입
+        // 일반 이동 (앞으로 한 칸 이동)
+        if (c + 1 <= 100000 && dist[c + 1] == -1) {
+            dist[c + 1] = dist[c] + 1;
+            dq.push_back(c + 1);
         }
     }
 }
