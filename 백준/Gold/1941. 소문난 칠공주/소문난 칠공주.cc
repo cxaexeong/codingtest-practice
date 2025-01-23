@@ -4,14 +4,16 @@ using namespace std;
 int dx[] = {1, 0, -1, 0};
 int dy[] = {0, 1, 0, -1};
 char board[5][5];
+bool v[5][5]; // 방문 여부를 저장하는 전역 배열
+vector<pair<int, int>> selected; // 선택된 칸을 저장하는 전역 벡터
 int ans = 0;
 #define x first
 #define y second
 
 // 선택된 칸이 인접한지 확인(bfs)
-bool isConnected(vector<pair<int, int>> &selected) {
+bool isConnected() {
     queue<pair<int, int>> q;
-    vector<vector<bool>> v(5, vector<bool>(5, false));
+    memset(v, false, sizeof(v)); // v 배열 초기화
     int count = 1;
 
     q.push(selected[0]);
@@ -40,9 +42,9 @@ bool isConnected(vector<pair<int, int>> &selected) {
 }
 
 // 칸 7개를 선택하는 조합 생성
-void backtracking(int depth, int sCount, vector<pair<int, int>> &selected, int start) {
+void backtracking(int depth, int sCount, int start) {
     if (depth == 7) {
-        if (sCount >= 4 && isConnected(selected)) // 'S' 개수 조건 수정
+        if (sCount >= 4 && isConnected()) // 'S' 개수 조건 확인
             ans++;
         return;
     }
@@ -50,7 +52,7 @@ void backtracking(int depth, int sCount, vector<pair<int, int>> &selected, int s
     for (int i = start; i < 25; i++) {
         int x = i / 5, y = i % 5;
         selected.push_back({x, y});
-        backtracking(depth + 1, sCount + (board[x][y] == 'S'), selected, i + 1);
+        backtracking(depth + 1, sCount + (board[x][y] == 'S'), i + 1);
         selected.pop_back();
     }
 }
@@ -63,8 +65,7 @@ int main() {
         for (int j = 0; j < 5; j++)
             cin >> board[i][j];
 
-    vector<pair<int, int>> selected;
-    backtracking(0, 0, selected, 0);
+    backtracking(0, 0, 0);
 
     cout << ans << '\n';
     return 0;
