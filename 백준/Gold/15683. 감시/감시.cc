@@ -57,13 +57,13 @@ int main() {
                 upd(x, y, dir + 2);
             } else if (board1[x][y] == 5) {
                 for (int d = 0; d < 4; d++)
-                    upd(x, y, dir + d); // 수정: dir + d
+                    upd(x, y, d); 
             }
         }
         int val = 0;
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++) // 수정: j < m
-                if (board2[i][j] == 0) val++; // 수정: board2
+            for (int j = 0; j < m; j++)
+                if (board2[i][j] == 0) val++; 
         mn = min(val, mn);
     }
     cout << mn;
