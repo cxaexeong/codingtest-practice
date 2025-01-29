@@ -17,7 +17,7 @@ int main() {
 
     while (index < n || !q.empty()) {
         // 1. 다리에서 빠져나갈 트럭 확인
-        if (!q.empty() && q.front().second + w == time) {
+        if (q.front().second + w == time) {
             current_weight -= q.front().first;  // 트럭 무게 제거
             q.pop();
         }
