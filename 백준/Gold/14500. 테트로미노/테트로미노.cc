@@ -5,7 +5,6 @@ int n,m;
 int board[500][500];
 bool v[500][500];
 int ans;
-
 int dx[4] = {1,0,-1,0};
 int dy[4] = {0,1,0,-1};
 
@@ -14,6 +13,7 @@ void dfs(int x, int y, int depth, int sum) {
         ans = max(ans, sum);
         return;
     }
+    
     if (!v[y][x]) {
         v[y][x] = true;
         sum += board[y][x];
@@ -23,11 +23,12 @@ void dfs(int x, int y, int depth, int sum) {
             int ny = y + dy[d];
             
             if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
-           
-            dfs(nx, ny, depth+1, sum);
+            
+            dfs(nx, ny, depth + 1, sum);
         }
         v[y][x] = false;
     }
+    
     // ㅓ 모양
     if (x-1 >= 0 && y-1 >= 0 && y+1<n)
         ans = max(ans, board[y][x] + board[y][x-1] + board[y-1][x] + board[y+1][x]);
@@ -43,7 +44,7 @@ void dfs(int x, int y, int depth, int sum) {
     // ㅜ 모양
     if (y+1<n && x-1>=0 && x+1<m)
         ans = max(ans, board[y][x] + board[y+1][x] + board[y][x-1] + board[y][x+1]);
-
+    
 }
 
 int main() {
@@ -52,12 +53,12 @@ int main() {
     
     cin >> n >> m;
     for (int i = 0; i < n; i++)
-        for (int j = 0;j < m; j++)
+        for (int j = 0; j < m; j++)
             cin >> board[i][j];
     
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
-            dfs(j,i,0,0);
+            dfs(j, i, 0, 0);
     
     cout << ans;
 }
