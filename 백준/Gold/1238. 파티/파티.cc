@@ -48,8 +48,8 @@ int main() {
         rev_adj[v].push_back({w,u});
     }
 
-    vector<int> toX = dijkstra(x, rev_adj); // 모든 마을 -> x까지 최단거리
-    vector<int> fromX = dijkstra(x, adj);    // x -> 모든 마을까지 최단거리
+    vector<int> toX = dijkstra(x, adj); // 모든 마을 -> x까지 최단거리
+    vector<int> fromX = dijkstra(x, rev_adj);    // x -> 모든 마을까지 최단거리
 
     int max_time = 0;
     for (int i = 1; i <= n; i++) {
