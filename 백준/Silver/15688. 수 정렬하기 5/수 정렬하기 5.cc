@@ -1,25 +1,28 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
+const int OFFSET = 1000000; // To shift negative numbers
+const int SIZE = 2000001;   // Range from -1,000,000 to 1,000,000
+
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    int n;
+    int n, num;
+    vector<int> count(SIZE, 0);
+
     cin >> n;
-    vector<int> arr(n);
-
     for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+        cin >> num;
+        count[num + OFFSET]++;
     }
 
-    sort(arr.begin(), arr.end());
-
-    for (const int &num : arr) {
-        cout << num << '\n';
+    for (int i = 0; i < SIZE; i++) {
+        while (count[i]--) {
+            cout << (i - OFFSET) << '\n';
+        }
     }
 
     return 0;
