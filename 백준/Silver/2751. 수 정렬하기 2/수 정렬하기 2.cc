@@ -9,18 +9,15 @@ int main() {
     cin >> n;
     
     vector<int> arr;
-    arr.reserve(n);    // 벡터의 크기를 미리 예약하여 push_back 속도 향상
+    arr.reserve(n);
     
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
         arr.push_back(x);
     }
-    
     sort(arr.begin(), arr.end());
-    
-    for (const int &num : arr) {
-        cout << num << '\n';
-    }
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << '\n';
     return 0;
 }
