@@ -1,12 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 정렬 기준: (1) 빈도 높은 순 (2) 같은 빈도면 입력 순서 유지
-bool cmp(pair<int, int> a, pair<int, int> b) {
-    if (a.second != b.second) return a.second > b.second; // 빈도 높은 순
-    return false; // 입력 순서 유지
-}
-
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
