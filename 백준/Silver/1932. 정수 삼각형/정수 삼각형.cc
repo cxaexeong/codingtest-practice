@@ -18,11 +18,10 @@ int main() {
     }
     dp[1][1] = tri[1][1];
     
-    // dp 테이블 채우기
     for (int i = 2; i <= n; i++) {
         for (int j = 1; j <= i; j++) {
             dp[i][j] = max(dp[i-1][j-1], dp[i-1][j]) + tri[i][j];
         }
     }
-    cout << *max_element(dp[n]+1, dp[n] + n + 1) << '\n';
+    cout << *max_element(dp[n]+1, dp[n]+n+1) << '\n';
 }
