@@ -2,26 +2,25 @@
 using namespace std;
 
 int n;
-int a[500005];
-
-int count_number(int target) {
-    return upper_bound(a, a+n, target) - lower_bound(a, a+n, target);
-}
+vector<int> arr;
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     
     cin >> n;
-    for (int i = 0; i < n; i++) cin >> a[i];
-    sort(a, a+n);
+    arr.resize(n);
+    
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    sort(arr.begin(), arr.end());
     
     int m;
     cin >> m;
-    
-    while (m--) {
-        int t;
-        cin >> t;
-        cout << count_number(t) << ' ';
+    for (int i = 0; i < m; i++) {
+        int target;
+        cin >> target;
+        cout << upper_bound(arr.begin(), arr.end(), target) 
+            - lower_bound(arr.begin(), arr.end(), target) << ' ';
     }
+    return 0;
 }
