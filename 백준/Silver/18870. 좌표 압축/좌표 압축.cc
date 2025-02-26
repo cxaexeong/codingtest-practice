@@ -2,30 +2,29 @@
 using namespace std;
 
 int n;
-vector<int> x, sorted_x;
-unordered_map<int,int> compressed;
+vector<int> arr;
+unordered_map<int, int> compressed;
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     
     cin >> n;
-    x.resize(n);
+    arr.resize(n);
     
-    for (int i = 0; i < n; i++) cin >> x[i];
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    vector<int> sorted_arr = arr; // 원본 유지
+    sort(sorted_arr.begin(), sorted_arr.end());
     
-    // 1. 배열 복사 및 정렬 
-    sorted_x = x;
-    sort(sorted_x.begin(), sorted_x.end());
+    sorted_arr.erase(unique(sorted_arr.begin(), sorted_arr.end()), sorted_arr.end());
     
-    // 2. 중복 제거 후 압축된 좌표 매핑
-    sorted_x.erase(unique(sorted_x.begin(), sorted_x.end()), sorted_x.end());
-    for (int i = 0; i < sorted_x.size(); i++) {
-        compressed[sorted_x[i]] = i;
-    }
-    
-    // 3. 변환된 좌표 출력
+    for (int i = 0; i < sorted_arr.size(); i++) {
+        compressed[sorted_arr[i]] = i;
+    }    
+
     for (int i = 0; i < n; i++) {
-        cout << compressed[x[i]] << ' ';
+        cout << compressed[arr[i]] << ' ';
     }
+    return 0;
 }
