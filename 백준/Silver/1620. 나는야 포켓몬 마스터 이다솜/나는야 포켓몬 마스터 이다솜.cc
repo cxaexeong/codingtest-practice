@@ -1,33 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int n,m;
+unordered_map<string, int> name_to_num;
+
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     
-    int n, m;
     cin >> n >> m;
-    
-    vector<string> pokemonByNumber(n+1);
-    unordered_map<string, int> pokemonByName;
+    vector<string> num_to_name(n+1);
     
     for (int i = 1; i <= n; i++) {
         string name;
         cin >> name;
-        pokemonByNumber[i] = name;    // 번호 -> 이름
-        pokemonByName[name] = i;      // 이름 -> 번호
+        name_to_num[name] = i;
+        num_to_name[i] = name;
     }
-        
-    for (int i = 0; i < m; i++) {
+    while (m--) {
         string query;
         cin >> query;
         
-        // 숫자인지 판별
         if (isdigit(query[0])) {
-            int num = stoi(query);
-            cout << pokemonByNumber[num] << '\n';
+            cout << num_to_name[stoi(query)] << '\n';
         } else {
-            cout << pokemonByName[query] << '\n';
+            cout << name_to_num[query] << '\n';
         }
     }
     return 0;
