@@ -5,20 +5,18 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     
-    int n;
+    priority_queue<int, vector<int>, greater<int>> pq;
+    
+    int n, x;
     cin >> n;
-    
-    priority_queue<unsigned int, vector<unsigned int>, greater<unsigned int>> pq; // unsigned int 유지
-    
     for (int i = 0; i < n; i++) {
-        unsigned int t;
-        cin >> t;
-        
-        if (t) pq.push(t);  // 입력값 `t`를 저장
-        else {
-            if (pq.empty()) cout << "0\n";
+        cin >> x;
+        if (x > 0) {
+            pq.push(x);
+        } else if (x == 0) {
+            if (pq.empty()) cout << "0\n";  // 🛠 비어있으면 0 출력
             else {
-                cout << pq.top() << '\n'; // 최소값 출력
+                cout << pq.top() << '\n';
                 pq.pop();
             }
         }
