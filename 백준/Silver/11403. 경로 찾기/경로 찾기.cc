@@ -1,47 +1,35 @@
-#include <iostream>
-#include <cstring>
-const int MAX = 101;
+#include <bits/stdc++.h>
 using namespace std;
 
-int arr[MAX][MAX];
-bool visited[MAX];
-
 int n;
+int graph[100][100];
 
-void dfs(int v) {
-	for (int i = 0; i < n; i++) {
-		if (!visited[i] && arr[v][i]) {
-			//최초 시작 노드는 방문을 체크해주면 안되니 
-			//방문 여부를 그 다음 노드부터 체크하도록 해줌
-			visited[i] = true;
-			dfs(i); 
-		}
-	}
-}
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0); cout.tie(0);
-
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cin >> arr[i][j];
-		}
-	}
-
-	for (int i = 0; i < n; i++) {
-		memset(visited, false, MAX);
-		dfs(i);
-		for (int j = 0; j < n; j++) {
-			if (visited[j]) arr[i][j] = 1;
-		}
-	}
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cout << arr[i][j] << " ";
-		}
-		cout << "\n";
-	}
-	return 0;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> graph[i][j];
+        }
+    }
+    
+    for (int k = 0; k < n; k++) {    // 1. 중간 노드 k 설정
+        for (int i = 0; i < n; i++) {    // 2. 시작 노드i
+            for (int j = 0; j < n; j++) {    // 3. 도착 노드 j
+                if (graph[i][k] && graph[k][j]) {    // k를 거쳐갈 수 있다면
+                    graph[i][j] = 1;
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << graph[i][j] << " ";
+        }
+        cout << '\n';
+    }
+    return 0;     
 }
