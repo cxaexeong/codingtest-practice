@@ -1,40 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> adj[10005];
-bool visited[10005];
+int n, m;
+vector<int> adj[505];
+bool visited[505];
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    
-    int n, m, a, b;
+
     cin >> n >> m;
-    for (int i = 1; i <= m; i++) {
+    
+    for (int i = 0; i < m; i++) {
+        int a, b;
         cin >> a >> b;
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
     
-    int ans = 0;
+    queue<pair<int, int>> q; // {현재 노드, depth}
+    visited[1] = true;       // 방문 표시
+    q.push({1, 0});
     
-    queue<pair<int,int>> q; // {현재 노드, 깊이}
-    q.push({1,0});
-    visited[1] = true;
+    int cnt = 0;
     
     while (!q.empty()) {
         int cur = q.front().first;
         int depth = q.front().second;
         q.pop();
         
-        if (depth >= 2) continue; 
+        if (depth >= 2) continue;
         
         for (int nxt : adj[cur]) {
-            if (visited[nxt]) continue;
-            q.push({nxt, depth+1});
-            visited[nxt] = true;
-            ans++;
+            if (!visited[nxt]) {
+                visited[nxt] = true; // 방문 처리
+                q.push({nxt, depth + 1});
+                cnt++;
+            } 
         }
     }
-    cout << ans << '\n';
+
+    cout << cnt << '\n'; // 초대할 사람 수 출력
+    return 0;
 }
