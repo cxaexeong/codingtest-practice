@@ -11,11 +11,11 @@ bool bfs(int start) {
     queue<int> q;
     q.push(start);
     color[start] = red;
-    
+
     while (!q.empty()) {
         int cur = q.front();
         q.pop();
-        
+
         for (int nxt : graph[cur]) {
             if (color[nxt] == 0) {
                 color[nxt] = -color[cur];
@@ -34,7 +34,6 @@ int main() {
     
     int k;
     cin >> k;
-    
     while (k--) {
         int v,e;
         cin >> v >> e;
@@ -56,11 +55,10 @@ int main() {
             if (color[i] == 0) {
                 if (!bfs(i)) {
                     isBi = false;
-                    break;
+                    break;;
                 }
             }
         }
         cout << (isBi? "YES" : "NO") << '\n';
     }
-    return 0;
 }
