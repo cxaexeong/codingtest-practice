@@ -2,40 +2,39 @@
 using namespace std;
 
 int n, m;
-int arr[10];
-vector<int> vec; 
-bool v[10];
+vector<int> arr;
+vector<int> selected;  // 선택한 숫자를 저장할 벡터
+bool isused[10];  // 숫자 사용 여부 체크
 
 void backtracking(int depth) {
-    if (depth == m) {   // 종료 조건: 수열의 길이가 m에 도달
-        for (int i = 0; i < m; i++)
-            cout << arr[i] << ' ';
+    if (depth == m) {
+        for (int num : selected) cout << num << ' ';
         cout << '\n';
         return;
     }
-    
-    for (int i = 0; i < n; i++) {  // 0부터 시작
-        if (!v[i]) {
-            v[i] = true;
-            arr[depth] = vec[i];
-            backtracking(depth + 1);
-            v[i] = false;
+
+    for (int i = 0; i < n; i++) {
+        if (!isused[i]) {
+            isused[i] = true;
+            selected.push_back(arr[i]);
+            backtracking(depth+1);
+            selected.pop_back();
+            isused[i] = false;
         }
     }
-}
 
+    
+}
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     
     cin >> n >> m;
-    
-    vec.resize(n);  // 벡터 크기 설정
+    arr.resize(n);
+
     for (int i = 0; i < n; i++) {
-        cin >> vec[i];
+        cin >> arr[i];
     }
-    
-    sort(vec.begin(), vec.end());  // 오름차순 정렬
-    backtracking(0);               // 백트래킹 시작
-    return 0;
+    sort(arr.begin(), arr.end());
+    backtracking(0);
 }
