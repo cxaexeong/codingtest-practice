@@ -16,14 +16,14 @@ bool canPass(vector<int>& line) {
         // 높이가 증가하는 경우 (왼쪽에 경사로 설치)
         if (line[i] < line[i + 1]) {
             for (int j = 0; j < l; j++) {
-                if (i - j < 0 || line[i - j] != line[i] || used[i - j]) return false;
+                if (line[i - j] != line[i] || used[i - j]) return false;
                 used[i - j] = true;
             }
         }
         // 높이가 감소하는 경우 (오른쪽에 경사로 설치)
         else {
             for (int j = 0; j < l; j++) {
-                if (i + 1 + j >= n || line[i + 1 + j] != line[i + 1] || used[i + 1 + j]) return false;
+                if (line[i + 1 + j] != line[i + 1] || used[i + 1 + j]) return false;
                 used[i + 1 + j] = true;
             }
         }
