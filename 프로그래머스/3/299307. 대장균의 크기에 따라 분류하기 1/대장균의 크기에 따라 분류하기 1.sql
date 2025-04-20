@@ -1,0 +1,14 @@
+/*
+LOW: 대장균 크기 100 이하
+MEDIUM: 100초과 1000 이하
+HIGH: 1000 초과 
+ID랑 SIZE 출력
+*/
+SELECT ID,
+    CASE
+        WHEN SIZE_OF_COLONY <= 100 THEN 'LOW'
+        WHEN SIZE_OF_COLONY <= 1000 THEN 'MEDIUM'
+        ELSE 'HIGH'
+        END AS SIZE
+FROM ECOLI_DATA 
+ORDER BY ID;
