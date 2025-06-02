@@ -4,20 +4,17 @@ int main() {
     int n, m;
     scanf("%d %d", &n, &m);
     
-    int busket[101];
+    int busket[100];
+    for (int i = 1; i < n+1; i++) busket[i] = i;
     
-    for (int i = 1; i <= n; i++) {
-        busket[i] = i;
+    for (int cnt = 0; cnt < m; cnt++) {
+        int i, j;
+        scanf("%d %d", &i, &j);
+        
+        int tmp = busket[i];
+        busket[i] = busket[j];
+        busket[j] = tmp;
     }
-    
-    for (int i = 0; i < m; i++) {
-        int a, b;
-        scanf("%d %d", &a, &b);
-        int tmp = busket[a];
-        busket[a] = busket[b];
-        busket[b] = tmp;
-    }
-    
     for (int i = 1; i <= n; i++) {
         printf("%d ", busket[i]);
     }
