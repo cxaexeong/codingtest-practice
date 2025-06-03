@@ -2,11 +2,11 @@ a = int(input())
 b = int(input())
 c = int(input())
 
-result = str(a * b * c)
-arr = [0] * 10
+result = a*b*c
+count = [0] * 10
 
-for char in result:
-    arr[int(char)] += 1
+for digit in str(result):
+    count[int(digit)] += 1
 
-for count in arr:
-    print(count)  
+for c in count:
+    print(c)
