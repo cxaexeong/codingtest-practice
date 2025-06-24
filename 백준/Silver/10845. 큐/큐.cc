@@ -1,50 +1,46 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include <stdio.h>
+#define MAX (10000+500)
+int N;
+int queue[MAX];
+int rp, wp;    // read pointer, write pointer
+
+int strCompare(const char *a, const char *b) {
+    while (*a && *a == *b) ++a, ++b;
+    return *a - *b;
+}
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-
-    queue<int> q;
-
-    int n;
-    cin >> n;
-
-    while (n--) {
-        string command;
-        cin >> command;
-
-        if (command == "push") {
-            int x;
-            cin >> x;
-            q.push(x);
-        } 
-        else if (command == "pop") {
-            if (q.empty()) cout << -1 << '\n';
-            else {
-                cout << q.front() << '\n';
-                q.pop();
-            }
-        } 
-        else if (command == "size") {
-            cout << q.size() << '\n';
+    
+    rp = wp = 0;
+    
+    scanf("%d", &N);
+    
+    for (int i = 0; i < N; i++) {
+        char command[100];
+        
+        scanf("%s", &command);
+        
+        if (strCompare(command, "push") == 0) {
+            int value;
+            scanf("%d", &value);
+            queue[wp] = value;
+            wp++;
         }
-        else if (command == "empty") {
-            if (q.empty()) cout << 1 << '\n';
-            else cout << 0 << '\n';
+        else if (strCompare(command, "pop") == 0) {
+            printf("%d\n", (wp == rp) ? -1 : queue[rp++]);
+            //rp++;
         }
-        else if (command == "front") {
-            if (q.empty())
-                cout << -1 << '\n';
-            else
-                cout << q.front() << '\n';
-        } 
-        else if (command == "back") {
-            if (q.empty())
-                cout << -1 << '\n';
-            else
-                cout << q.back() << '\n';
+        else if (strCompare(command, "size") == 0) {
+            printf("%d\n", wp - rp);
+        }
+        else if (strCompare(command, "empty") == 0) {
+            printf("%d\n", wp == rp);
+        }
+        else if (strCompare(command, "front") == 0) {
+            printf("%d\n", (wp == rp) ? -1 : queue[rp]);
+        }
+        else if (strCompare(command, "back") == 0) {
+            printf("%d\n", (wp == rp) ? -1 : queue[wp-1]);
         }
     }
-    return 0;
 }
