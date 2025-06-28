@@ -1,38 +1,65 @@
-#include <bits/stdc++.h>
-using namespace std;
+// N과 M (12)
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 
-int n, m;
-int arr[10];
-vector<int> vec;
+#define MAX (7 + 7)
 
-void backtracking(int depth, int start) {
-    if (depth == m) {
-        for (int i = 0; i < m; i++) 
-            cout << arr[i] << ' ';
-        cout << '\n';
-        return; // 깊이가 m에 도달했으면 종료
-    }
-    
-    int last = -1; // 중복 방지를 위한 변수
-    for (int i = start; i < n; i++) {
-        if (vec[i] != last) { // 직전에 선택한 값과 다른 경우만 처리
-            arr[depth] = vec[i];
-            backtracking(depth + 1, i); // 같은 숫자를 선택할 수 있도록 i 유지
-            last = vec[i]; // 마지막 선택한 값 갱신
-        }
-    }
+int N, M;
+int num_of_cases[MAX];
+
+int numbers[MAX];
+bool check[10000 + 100];
+
+void printCases() {
+
+	for (int i = 0; i < M; i++) {
+		printf("%d ", num_of_cases[i]);
+	}
+	putchar('\n');
+}
+
+void dfs(int depth, int start) {
+
+	if (depth == M) {
+		printCases();
+		return;
+	}
+
+	for (int i = start; i <= N; i++) {
+		num_of_cases[depth] = numbers[i];
+		dfs(depth + 1, i);
+	}
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    
-    cin >> n >> m;
-    vec.resize(n);
-    
-    for (int i = 0; i < n; i++)
-        cin >> vec[i];
-    sort(vec.begin(), vec.end());
-    backtracking(0, 0);
-    return 0;
+
+	scanf("%d %d", &N, &M);
+
+	int count = 1;
+	for (int i = 1; i <= N; i++) {
+		int value;
+		scanf("%d", &value);
+
+		if (check[value] == false) {
+			numbers[count++] = value;
+			check[value] = true;
+		}
+	}
+	N = count - 1;
+
+
+	// 정렬
+	for (int i = 1; i <= N; i++) {
+		for (int k = i + 1; k <= N; k++) {
+			if (numbers[i] > numbers[k]) {
+				int tmp = numbers[i];
+				numbers[i] = numbers[k];
+				numbers[k] = tmp;
+			}
+		}
+	}
+
+	dfs(0,1);
+
+	return 0;
 }
