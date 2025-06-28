@@ -1,31 +1,37 @@
-#include <bits/stdc++.h>
-using namespace std;
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 
-int n,m;
-int arr[10];
-bool isused[10];
+#define MAX (8+8)
 
-void backtracking(int idx, int start) {
-    if (idx == m) {
-        for (int i = 0; i < m; i++) {
-            cout << arr[i] << ' ';
-        }
-        cout << '\n';
-        return;
-    }
+int N, M;
+int num_of_cases[MAX];
 
-    else {
-        for (int i = start + 1; i <= n; i++) { // 이전 수보다 큰 수만 선택하기 위함 (오름차순)
-            arr[idx] = i;
-            backtracking(idx + 1, i);
-        }
-    }
+void printCases() {
+
+	for (int i = 0; i < M; i++) {
+		printf("%d ", num_of_cases[i]);
+	}
+	putchar('\n');
 }
+
+void dfs(int depth, int start) {
+
+	if (depth == M) {
+		printCases();
+		return;
+	}
+
+	for (int i = start; i <= N; i++) {
+		num_of_cases[depth] = i;
+		dfs(depth + 1, i+1);
+	}
+}
+
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
 
-    cin >> n >> m;
-    backtracking(0, 0);
+	scanf("%d %d", &N, &M);
 
+	dfs(0, 1);
+	
+	return 0;
 }
