@@ -1,37 +1,53 @@
-#include <bits/stdc++.h>
-using namespace std;
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 
-int k;
-vector<int> s;
-int arr[6];
+#define MAX (13 + 3)
 
-void backtracking(int depth, int start) {
-    if (depth==6) {
-        for (int i = 0; i < 6; i++) 
-            cout << arr[i] << ' '; 
-        cout << '\n';
-        return;        
-    }
-    
-    for (int i = start; i < k; i++) {
-        arr[depth] = s[i];
-        backtracking(depth+1, i+1);
-    }
+int N, S;
+int num_of_cases[MAX];
+
+int numbers[MAX];
+
+void printCases() {
+
+	for (int i = 0; i < 6; i++) {
+		printf("%d ", num_of_cases[i]);
+	}
+	putchar('\n');
 }
 
+void input() {
+
+	scanf("%d", &N);
+
+	for (int i = 1; i <= N; i++) {
+		scanf("%d", &numbers[i]);
+	}
+}
+
+void DFS(int depth, int start) {
+
+	if (depth == 6) {
+		printCases();
+		return;
+	}
+
+	for (int i = start; i <= N; i++) {
+		num_of_cases[depth] = numbers[i];
+		DFS(depth + 1, i+1);
+	}
+}
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    
-    while (true) {
-        cin >> k;
-        if (k==0) break;
-        
-        s.clear();
-        s.resize(k);
-        for (int i = 0; i < k; i++)
-            cin >> s[i];
-        backtracking(0,0);
-        cout << '\n';
-    }
+
+	while (1) {
+		
+		input();
+
+		if (N == 0) break;
+
+		DFS(0, 1);
+
+		putchar('\n');
+	}
+	return 0;
 }
