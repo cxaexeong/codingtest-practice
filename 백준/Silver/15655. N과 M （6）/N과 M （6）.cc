@@ -1,42 +1,52 @@
-#include <bits/stdc++.h>
-using namespace std;
+// N과 M (6)
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 
-vector<int> vec; // 입력 숫자 저장
-int arr[10];     // 조합 저장
-bool v[10];      // 방문 여부 체크
-int n, m;
+#define MAX (8+8)
 
-void backtracking(int depth, int start) {
-    if (depth == m) { // 깊이가 m에 도달하면 결과 출력
-        for (int i = 0; i < m; i++) {
-            cout << arr[i] << ' ';
-        }
-        cout << '\n';
-        return;
-    }
+int N, M;
+int num_of_cases[MAX];
+int numbers[MAX];
 
-    for (int i = start; i < n; i++) { // start부터 시작해 오름차순 유지
-        if (!v[i]) {
-            v[i] = true;
-            arr[depth] = vec[i]; // vec의 값을 arr에 저장
-            backtracking(depth + 1, i + 1); // 다음 숫자는 i + 1부터 탐색
-            v[i] = false;
-        }
-    }
+void printCases() {
+
+	for (int i = 0; i < M; i++) {
+		printf("%d ", num_of_cases[i]);
+	}
+	putchar('\n');
+}
+
+void dfs(int depth, int start) {
+
+	if (depth == M) {
+		printCases();
+		return;
+	}
+
+	for (int i = start; i <= N; i++) {
+		num_of_cases[depth] = numbers[i];
+		dfs(depth + 1, i+1);
+	}
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    
-    cin >> n >> m; // n개의 숫자와 m개 선택
-    
-    vec.resize(n);
-    for (int i = 0; i < n; i++) {
-        cin >> vec[i]; // 입력 숫자 저장
-    }
-    sort(vec.begin(), vec.end()); // 오름차순 정렬
-    
-    backtracking(0, 0); // 백트래킹 시작
-    return 0;
+
+	scanf("%d %d", &N, &M);
+
+	for (int i = 1; i <= N; i++) {
+		scanf("%d", &numbers[i]);
+	}
+
+	for (int i = 1; i <= N; i++) {
+		for (int k = i + 1; k <= N; k++) {
+			if (numbers[i] > numbers[k]) {
+				int tmp = numbers[i];
+				numbers[i] = numbers[k];
+				numbers[k] = tmp;
+			}
+		}
+	}
+	dfs(0, 1);
+	
+	return 0;
 }
