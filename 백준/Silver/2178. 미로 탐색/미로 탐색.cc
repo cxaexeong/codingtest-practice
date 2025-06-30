@@ -1,39 +1,99 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define x first
-#define y second
-string board[102];
-int dist[102][102];
-int n,m;
-int dx[4] = {1,0,-1,0};
-int dy[4] = {0,1,0,-1};
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define MAX (100 + 5)
+
+int N, M;
+
+int MAP[MAX][MAX];
+bool visit[MAX][MAX];
+
+struct RC
+{
+	int r;
+	int c;
+};
+
+RC queue[MAX * MAX];
+
+int dr[] = {-1, 0, 1, 0};
+int dc[] = {0, 1, 0, -1};
+
+void printMap() // for debug
+{
+	printf("MAP\n");
+	for (int r = 1; r <= N; r++)
+	{
+		for (int c = 1; c <= M; c++)
+			printf("%2d ", MAP[r][c]);
+		putchar('\n');
+	}
+	putchar('\n');
+
+	printf("visit\n");
+	for (int r = 1; r <= N; r++)
+	{
+		for (int c = 1; c <= M; c++)
+			printf("%d ", visit[r][c]);
+		putchar('\n');
+	}
+	putchar('\n');
+}
+
+void input()
+{
+	scanf("%d %d", &N, &M);
+
+	for (int r = 1; r <= N; r++)
+		for (int c = 1; c <= M; c++)
+			scanf("%1d", &MAP[r][c]);
+}
+
+void bfs(int r, int c)
+{
+	int rp, wp;
+
+	rp = wp = 0;
+
+	queue[wp].r = r;
+	queue[wp++].c = c;
+
+	visit[r][c] = true;
+
+	// printMap();
+
+	while (rp < wp)
+	{
+		RC out = queue[rp++];
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nr, nc;
+
+			nr = out.r + dr[i];
+			nc = out.c + dc[i];
+
+			if (MAP[nr][nc] == 0 || visit[nr][nc] == true) continue;
+
+			queue[wp].r = nr;
+			queue[wp++].c = nc;
+
+			visit[nr][nc] = true;
+
+			MAP[nr][nc] = MAP[out.r][out.c] + 1;
+
+			// printMap();
+		}
+	}
+}
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    
-    cin >> n >> m;
-    for (int i = 0; i < n; i++) {
-        cin >> board[i]; // 한 줄 전체 입력받음, string 타입이라 이중 for문 런타임에러 남
-    }
-    
-    // 초기 설정
-    queue<pair<int,int>> q;
-    q.push({0,0});
-    dist[0][0] = 1; // 시작 위치 거리
-    
-    while (!q.empty()) {
-        auto cur = q.front(); q.pop();
-        for (int dir = 0; dir < 4; dir++) {
-            int nx = cur.x + dx[dir];
-            int ny = cur.y + dy[dir];
-            // 범위 밖 or 벽 or 이미 방문한 경우 건너뜀
-            if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-            if (board[nx][ny] == '0' || dist[nx][ny] > 0) continue;
-            dist[nx][ny] = dist[cur.x][cur.y] + 1; // 거리 갱신
-            q.push({nx,ny});
-        }
-    }
-    cout << dist[n-1][m-1];
-    return 0;
+
+	input();
+
+	bfs(1, 1);
+
+	printf("%d\n", MAP[N][M]);
+
+	return 0;
 }
