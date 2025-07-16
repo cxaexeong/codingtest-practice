@@ -25,7 +25,7 @@ int main() {
         // 최소 비용을 저장하는 map (value -> cost)
         unordered_map<int, int> dist;
 
-        // min-heap 우선순위 큐: {누적비용, 현재값}
+        // min-heap: {누적비용, 현재값}
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({0, K});
         dist[K] = 0;
@@ -35,15 +35,17 @@ int main() {
             int value = pq.top().second;
             pq.pop();
 
-            if (value == 0) break; // 도달 완료
+            if (value == 0) {
+                break;
+            }
 
-            if (dist[value] < cost) continue; // 더 좋은 경로가 이미 존재
+            // 같은 값이라도 더 나은 경로가 있다면 continue
+            if (dist[value] < cost) continue;
 
             for (int i = 0; i < N; i++) {
                 int next_value = value / arr[i];
                 int next_cost = cost + (value % arr[i]);
 
-                // 갱신 조건: 더 적은 비용일 경우에만 진행
                 if (dist.find(next_value) == dist.end() || next_cost < dist[next_value]) {
                     dist[next_value] = next_cost;
                     pq.push({next_cost, next_value});
