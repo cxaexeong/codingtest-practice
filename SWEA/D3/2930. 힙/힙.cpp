@@ -1,39 +1,46 @@
 #include <iostream>
-#include <queue>
+#include <queue> 
+#include <vector>
 
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
 
-    int tc;
-    cin >> tc;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 
-    for (int t = 1; t <= tc; t++) {
-        int n;
-        cin >> n;
+	int T;
+	cin >> T;
 
-        priority_queue<int> pq;
-        cout << "#" << t;
+	for (int tc = 1; tc <= T; tc++) {
+		
+		int N;
+		cin >> N;
 
-        while (n--) {
-            int cmd;
-            cin >> cmd;
+		priority_queue<int, vector<int>> pq;
 
-            if (cmd == 1) {
-                int x;
-                cin >> x;
-                pq.push(x);
-            } else if (cmd == 2) {
-                if (pq.empty()) cout << " -1";
-                else {
-                    cout << " " << pq.top();
-                    pq.pop();
-                }
-            }
-        }
-        cout << "\n";
-    }
-    return 0;
+		cout << "#" << tc;
+
+		for (int n = 0; n < N; n++) {
+			int cmd;
+			cin >> cmd;
+
+			if (cmd == 1) {
+				int x;
+				cin >> x;
+				pq.push(x);
+			}
+
+			else if (cmd == 2) {
+				if (!pq.empty()) {
+					cout << " " << pq.top();
+					pq.pop();
+				}
+				else
+					cout << " -1";
+			}
+		}
+	cout << '\n';
+	}
+
 }
