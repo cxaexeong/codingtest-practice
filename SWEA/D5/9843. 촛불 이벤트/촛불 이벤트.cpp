@@ -3,39 +3,39 @@
 #include <vector>
 
 using namespace std;
+using ll = long long;
 
 int main() {
+
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int tc;
-    cin >> tc;
-    vector<long long> results(tc);
+    int T;
+    cin >> T;
+    vector<ll> results(T+1);
+    
+    for (int tc = 1; tc <= T; tc++) {
+        ll N;
+        cin >> N;
 
-    for (int t = 0; t < tc; t++) {
-        long long n;
-        cin >> n;
-
-        long long D = 1 + 8 * n;  // 판별식 D = 1 + 8n
-        long long sqrtD = (long long) sqrt(D);
+        ll D = 1 + 8 * N;
+        ll sqrtD = (ll) sqrt(D);
 
         if (sqrtD * sqrtD != D) {
-            results[t] = -1;
+            results[tc] = -1;
             continue;
         }
 
-        long long k = (-1 + sqrtD) / 2;
-        if (k * (k + 1) / 2 == n) {
-            results[t] = k;
+        ll k = (-1 + sqrtD) / 2;
+        if (k * (k + 1) / 2 == N) {
+            results[tc] = k;
         } else {
-            results[t] = -1;
+            results[tc] = -1;
         }
     }
 
-    // 한 번에 출력
-    for (int t = 0; t < tc; t++) {
-        cout << "#" << (t + 1) << " " << results[t] << "\n";
+    for (int tc = 1; tc <= T; tc++) {
+        cout << "#" << tc << ' ' << results[tc] << '\n';
     }
-
     return 0;
 }
