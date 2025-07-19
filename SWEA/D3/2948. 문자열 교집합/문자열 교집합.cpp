@@ -5,31 +5,33 @@
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
 
-    int tc;
-    cin >> tc;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 
-    for (int t = 1; t <= tc; t++) {
-        int n, m;
-        cin >> n >> m;
+	int T;
+	cin >> T;
 
-        unordered_set<string> setA;
-        string word;
+	for (int tc = 1; tc <= T; tc++) {
+		int N, M;
+		cin >> N >> M;
 
-        for (int i = 0; i < n; i++) {
-            cin >> word;
-            setA.insert(word);
-        }
+		unordered_set<string> setA;
+		string tmp;
 
-        int cnt = 0;
-        for(int i = 0; i < m; i++) {
-            cin >> word;
-            // word가 setA에도 존재하면, 그 위치의 반복자 반환/ 존재안하면 setA.end() 반환 (즉, 찾지못했음 의미)
-            if (setA.find(word) != setA.end()) cnt++;
-        }
-        cout << "#" << t << " " << cnt << '\n';
-    }
-    return 0;
+		for (int n = 0; n < N; n++) {
+			cin >> tmp;
+			setA.insert(tmp);
+		}
+
+		int count = 0;
+		
+		for (int m = 0; m < M; m++) {
+			cin >> tmp;
+			if (setA.count(tmp)) count++;
+		}
+
+		cout << "#" << tc << " " << count << '\n';
+	}
+	return 0;
 }
